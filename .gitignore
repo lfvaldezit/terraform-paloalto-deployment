@@ -1,0 +1,14 @@
+/.terraform/
+.terraform
+
+*.log
+
+*tfstate.*
+*tfstate
+*tfstate.backup
+*tfvars.json
+
+.terraform.lock.hcl
+terraform.tfvars
+
+.$image.png.bkp
