@@ -9,7 +9,13 @@
 ## 🔥 Palo Alto VM Configuration
 
 ```bash
-configure 
+
+# Enter Configuration mode
+
+configure
+
+# Configure admin password
+
 set mgt-config users admin password
 
 # Configure Interfaces
@@ -22,7 +28,7 @@ set network interface ethernet ethernet1/2 layer3 dhcp-client
 set network interface ethernet ethernet1/2 link-state up
 set network interface ethernet ethernet1/2 layer3
  
-# Configure zones and assigning interfaces
+# Configure zones and assign interfaces to each zone
 
 set zone INSIDE network layer3 ethernet1/1
 set zone OUTSIDE network layer3 ethernet1/2
