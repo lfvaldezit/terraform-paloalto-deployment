@@ -6,6 +6,97 @@
 
 ## 📝 tfvars file
 
+```bash
+#----------------------------
+# VPC Variables
+#----------------------------
+
+name       = "SEC-PAFW"
+cidr_block = "10.192.0.0/24"
+
+outside_subnets = [{ name = "SEC-PAFW-OUTSIDE-FW1", cidr_block = "10.192.0.0/27", az = "us-east-1a" },
+{ name = "SEC-PAFW-OUTSIDE-FW2", cidr_block = "10.192.0.32/27", az = "us-east-1b" }]
+
+inside_subnets = [{ name = "SEC-PAFW-INSIDE-FW1", cidr_block = "10.192.0.64/28", az = "us-east-1a" },
+{ name = "SEC-PAFW-INSIDE-FW2", cidr_block = "10.192.0.80/28", az = "us-east-1b" }]
+
+management_subnets = [{ name = "SEC-PAFW-MGMT-FW1", cidr_block = "10.192.0.96/28", az = "us-east-1a" },
+{ name = "SEC-PAFW-MGMT-FW2", cidr_block = "10.192.0.112/28", az = "us-east-1b" }]
+
+spare_subnets = [{ name = "SEC-PAFW-SPARE-FW1", cidr_block = "10.192.0.128/26", az = "us-east-1a" },
+{ name = "SEC-PAFW-SPARE-FW2", cidr_block = "10.192.0.192/26", az = "us-east-1b" }]
+
+#----------------------------
+# SG Variables
+#----------------------------
+
+security_groups_outside = {
+  "SEC-PAFW-OUTSIDE-SG" = {
+    "description" : "Security Group for the Outside ENI of the FW1",
+    "inbound" : [
+      { "protocol" : "tcp", "ports" : 443, "source" : "0.0.0.0/0", "description" : "" },
+      { "protocol" : "tcp", "ports" : 80, "source" : "0.0.0.0/0", "description" : "" },
+    ],
+    "outbound" : [
+      { "protocol" : "-1", "ports" : 0, "destination" : "0.0.0.0/0", "description" : "" },
+    ],
+  }
+}
+
+security_groups_inside = {
+  "SEC-PAFW-INSIDE-SG" = {
+    "description" : "Security Group for the Inside ENI of the FW1",
+    "inbound" : [
+      { "protocol" : "-1", "ports" : 0, "source" : "0.0.0.0/0", "description" : "" },
+    ],
+    "outbound" : [
+      { "protocol" : "-1", "ports" : 0, "destination" : "0.0.0.0/0", "description" : "" },
+    ],
+  }
+}
+
+security_groups_mgmt = {
+  "SEC-PAFW-MGMT-SG" = {
+    "description" : "Security Group for the Mgmt ENI of the FW1",
+    "inbound" : [
+      { "protocol" : "tcp", "ports" : 443, "source" : "0.0.0.0/0", "description" : "" },
+      { "protocol" : "tcp", "ports" : 22, "source" : "0.0.0.0/0", "description" : "" },
+    ],
+    "outbound" : [
+      { "protocol" : "-1", "ports" : 0, "destination" : "0.0.0.0/0", "description" : "" },
+    ],
+  }
+}
+
+security_groups_web = {
+  "SEC-WEB-SG" = {
+    "description" : "Security Group for the Web Server ENI",
+    "inbound" : [
+      { "protocol" : "tcp", "ports" : 443, "source" : "0.0.0.0/0", "description" : "" },
+      { "protocol" : "tcp", "ports" : 22, "source" : "0.0.0.0/0", "description" : "" },
+    ],
+    "outbound" : [
+      { "protocol" : "-1", "ports" : 0, "destination" : "0.0.0.0/0", "description" : "" },
+    ],
+  }
+}
+
+#----------------------------
+# EC2 Variables
+#----------------------------
+
+ami_id             = "ami-08982f1c5bf93d976"
+instance_type      = "t3.small"
+source_dest_check  = true
+
+fw1_ami_id             = "ami-077005c797a9a09e9"
+fw1_instance_type      = "m4.xlarge"
+fw1_source_dest_check  = false
+fw1_enable_mgmt_eni    = true
+fw1_enable_inside_eni  = true
+fw1_enable_outside_eni = true
+```
+
 ## 🔥 Palo Alto VM Configuration
 
 ```bash
