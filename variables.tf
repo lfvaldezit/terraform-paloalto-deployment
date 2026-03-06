@@ -62,20 +62,6 @@ variable "create_igw" {
 # Security Groups Variables
 #----------------------------
 
-variable "description_outside" {
-  type = string
-}
-
-variable "ingress_rules_outside" {
-  description = "List of outside rules"
-  type = list(object({
-    source   = string
-    fromPort = number
-    toPort   = number
-    protocol = string
-  }))
-  default = []
-}
 
 variable "security_groups_outside" {
   type = map(object({
@@ -98,20 +84,6 @@ variable "security_groups_outside" {
   default = {}
 }
 
-variable "description_inside" {
-  type = string
-}
-
-variable "ingress_rules_inside" {
-  description = "List of inside rules"
-  type = list(object({
-    source   = string
-    fromPort = number
-    toPort   = number
-    protocol = string
-  }))
-  default = []
-}
 
 variable "security_groups_inside" {
   type = map(object({
@@ -132,22 +104,6 @@ variable "security_groups_inside" {
     tags = optional(map(string), {})
   }))
   default = {}
-}
-
-
-variable "description_mgmt" {
-  type = string
-}
-
-variable "ingress_rules_mgmt" {
-  description = "List of mgmt rules"
-  type = list(object({
-    source   = string
-    fromPort = number
-    toPort   = number
-    protocol = string
-  }))
-  default = []
 }
 
 variable "security_groups_mgmt" {
@@ -171,22 +127,6 @@ variable "security_groups_mgmt" {
   default = {}
 }
 
-
-variable "description_spare" {
-  type = string
-}
-
-variable "ingress_rules_spare" {
-  description = "List of spare rules"
-  type = list(object({
-    source   = string
-    fromPort = number
-    toPort   = number
-    protocol = string
-  }))
-  default = []
-}
-
 variable "security_groups_web" {
   type = map(object({
     description = optional(string, "")
@@ -207,7 +147,6 @@ variable "security_groups_web" {
   }))
   default = {}
 }
-
 
 #----------------------------
 # EC2 Variables

@@ -18,62 +18,26 @@ module "vpc" {
 # Security Groups 
 #----------------------------
 
-# module "outside-SG" {
-#   source                     = "./modules/security-group"
-#   vpc_id                     = module.vpc.vpc_id
-#   name                       = local.outside_secgroup
-#   security_group_description = var.description_outside
-#   ingress_rules              = var.ingress_rules_outside
-#   common_tags                = local.common_tags
-# }
-
-# module "inside-SG" {
-#   source                     = "./modules/security-group"
-#   vpc_id                     = module.vpc.vpc_id
-#   name                       = local.inside_secgroup
-#   security_group_description = var.description_inside
-#   ingress_rules              = var.ingress_rules_inside
-#   common_tags                = local.common_tags
-# }
-
-# module "mgmt-SG" {
-#   source                     = "./modules/security-group"
-#   vpc_id                     = module.vpc.vpc_id
-#   name                       = local.mgmt_secgroup
-#   security_group_description = var.description_mgmt
-#   ingress_rules              = var.ingress_rules_mgmt
-#   common_tags                = local.common_tags
-# }
-
-# module "spare-SG" {
-#   source                     = "./modules/security-group"
-#   vpc_id                     = module.vpc.vpc_id
-#   name                       = local.spare_secgroup
-#   security_group_description = var.description_spare
-#   ingress_rules              = var.ingress_rules_spare
-#   common_tags                = local.common_tags
-# }
-
 module "outside-SG" {
-  source          = "./modules/security-group/new-sec-group"
+  source          = "./modules/security-group"
   vpc_id          = module.vpc.vpc_id
   security_groups = var.security_groups_outside
 }
 
 module "inside-SG" {
-  source          = "./modules/security-group/new-sec-group"
+  source          = "./modules/security-group"
   vpc_id          = module.vpc.vpc_id
   security_groups = var.security_groups_inside
 }
 
 module "mgmt-SG" {
-  source          = "./modules/security-group/new-sec-group"
+  source          = "./modules/security-group"
   vpc_id          = module.vpc.vpc_id
   security_groups = var.security_groups_mgmt
 }
 
 module "web-SG" {
-  source          = "./modules/security-group/new-sec-group"
+  source          = "./modules/security-group"
   vpc_id          = module.vpc.vpc_id
   security_groups = var.security_groups_web
 }
@@ -152,7 +116,7 @@ module "paloalto-FW1" {
   ami_id                     = var.fw1_ami_id
   multi_eni = true
   instance_type              = var.fw1_instance_type
-  source_dest_check          = var.source_dest_check
+  source_dest_check          = var.fw1_source_dest_check
   enable_mgmt_eni            = var.fw1_enable_mgmt_eni
   enable_inside_eni          = var.fw1_enable_inside_eni
   enable_outside_eni         = var.fw1_enable_outside_eni
